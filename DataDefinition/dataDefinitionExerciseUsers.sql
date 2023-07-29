@@ -34,3 +34,17 @@ VALUES ("PESHO", "123", TIME(NOW()), true),
        ("drago", "789", TIME(NOW()), true),
        ("kalin", "1234", TIME(NOW()), true),
        ("milka", "123456", TIME(NOW()), false);
+
+ALTER TABLE `users`
+    DROP PRIMARY KEY,
+    ADD PRIMARY KEY pk_users (`id`,`username`);
+
+ALTER TABLE `users`
+    MODIFY COLUMN `last_login_time` DATETIME DEFAULT NOW();
+
+ALTER TABLE `users`
+    DROP PRIMARY KEY,
+    ADD PRIMARY KEY pk_users (`id`);
+
+ALTER TABLE `users`
+    MODIFY COLUMN `username` VARCHAR(30) UNIQUE;
