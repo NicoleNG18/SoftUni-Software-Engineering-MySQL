@@ -42,3 +42,68 @@ CREATE TABLE rooms
     id     INT PRIMARY KEY AUTO_INCREMENT,
     `type` VARCHAR(30)
 );
+
+INSERT INTO rooms(`type`)
+VALUES ('apartment'),
+       ('single room');
+
+CREATE TABLE clients
+(
+    id         INT PRIMARY KEY AUTO_INCREMENT,
+    first_name VARCHAR(50),
+    last_name  VARCHAR(50),
+    room_id    INT NOT NULL,
+    CONSTRAINT fk_clients_rooms
+        FOREIGN KEY (room_id)
+            REFERENCES rooms (id)
+);
+
+INSERT INTO clients(`first_name`, `last_name`, `room_id`)
+VALUES ('Pesho', 'Petrov', 1),
+       ('Gosho', 'Georgiev', 2),
+       ('Mariya', 'Marieva', 2),
+       ('Katya', 'Katerinova', 1),
+       ('Nikolay', 'Nikolaev', 2);
+
+
+SELECT `id`, `first_name`, `last_name`, `job_title`
+FROM `employees`
+ORDER BY `id`;
+
+SELECT `id`, CONCAT_WS(' ', `first_name`, `last_name`) AS `full_name`, `job_title`, `salary`
+FROM `employees`
+WHERE `salary` > 1000.00
+ORDER BY `id`;
+
+USE `hotel`;
+
+CREATE VIEW `top_paid_employee` AS
+SELECT *
+FROM `employees`
+ORDER BY `salary` DESC;
+
+SELECT *
+FROM `top_paid_employee`
+LIMIT 1;
+
+SELECT *
+FROM `employees`
+WHERE `salary` >= 1000
+  AND `department_id` = 4
+ORDER BY `id`;
+
+UPDATE `employees`
+SET `salary`=`salary` + 100
+WHERE `job_title` = "Manager";
+
+SELECT *
+FROM `employees`
+WHERE `job_title` = "Manager";
+
+DELETE
+FROM `employees`
+WHERE `department_id` IN (1, 2);
+
+SELECT *
+FROM `employees`
+ORDER BY `id`;
