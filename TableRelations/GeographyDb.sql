@@ -660,3 +660,179 @@ VALUES (1, 'Alaska Range'),
     ENABLE KEYS */;
 
 
+
+CREATE TABLE IF NOT EXISTS `mountains_countries`
+(
+    `mountain_id`  int(10) NOT NULL,
+    `country_code` char(2) NOT NULL,
+    PRIMARY KEY (`mountain_id`, `country_code`),
+    UNIQUE KEY `PK_MountainsContinents` (`mountain_id`, `country_code`),
+    KEY `fk_mountains_countries_mountains` (`country_code`),
+    CONSTRAINT `fk_mountains_countries_countries` FOREIGN KEY (`mountain_id`) REFERENCES `mountains` (`id`),
+    CONSTRAINT `fk_mountains_countries_mountains` FOREIGN KEY (`country_code`) REFERENCES `countries` (`country_code`)
+) ENGINE = InnoDB
+  DEFAULT CHARSET = utf8;
+
+
+/*!40000 ALTER TABLE `mountains_countries`
+    DISABLE KEYS */;
+INSERT INTO `mountains_countries` (`mountain_id`, `country_code`)
+VALUES (3, 'AR'),
+       (4, 'BG'),
+       (16, 'BG'),
+       (17, 'BG'),
+       (23, 'BG'),
+       (24, 'BG'),
+       (25, 'BG'),
+       (18, 'CA'),
+       (26, 'CH'),
+       (3, 'CL'),
+       (9, 'CN'),
+       (11, 'CN'),
+       (5, 'GE'),
+       (10, 'ID'),
+       (15, 'ID'),
+       (21, 'ID'),
+       (9, 'IN'),
+       (2, 'IR'),
+       (26, 'IT'),
+       (12, 'KE'),
+       (6, 'MX'),
+       (22, 'MX'),
+       (9, 'NP'),
+       (20, 'PG'),
+       (11, 'PK'),
+       (5, 'RU'),
+       (13, 'TZ'),
+       (14, 'TZ'),
+       (1, 'US');
+/*!40000 ALTER TABLE `mountains_countries`
+    ENABLE KEYS */;
+
+
+
+CREATE TABLE IF NOT EXISTS `peaks`
+(
+    `id`          int(10)     NOT NULL AUTO_INCREMENT,
+    `peak_name`   varchar(50) NOT NULL,
+    `elevation`   int(10)     NOT NULL,
+    `mountain_id` int(10)     NOT NULL,
+    PRIMARY KEY (`id`),
+    UNIQUE KEY `PK_Peaks` (`id`),
+    KEY `fk_peaks_mountains` (`mountain_id`),
+    CONSTRAINT `fk_peaks_mountains` FOREIGN KEY (`mountain_id`) REFERENCES `mountains` (`id`)
+) ENGINE = InnoDB
+  AUTO_INCREMENT = 110
+  DEFAULT CHARSET = utf8;
+
+
+/*!40000 ALTER TABLE `peaks`
+    DISABLE KEYS */;
+INSERT INTO `peaks` (`id`, `peak_name`, `elevation`, `mountain_id`)
+VALUES (62, 'Aconcagua', 6962, 3),
+       (63, 'Botev', 2376, 4),
+       (64, 'Carstensz Pyramid', 4884, 21),
+       (65, 'Damavand', 5610, 2),
+       (66, 'Dykh-Tau', 5205, 5),
+       (67, 'Elbrus', 5642, 5),
+       (68, 'Everest', 8848, 9),
+       (69, 'Julianatop', 4760, 10),
+       (70, 'K2', 8611, 11),
+       (71, 'Kangchenjunga', 8586, 9),
+       (72, 'Kilimanjaro', 5895, 13),
+       (73, 'Malyovitsa', 2729, 17),
+       (74, 'Mawenzi', 5149, 14),
+       (75, 'Monte Pissis', 6793, 3),
+       (76, 'Mount Giluwe', 4368, 20),
+       (77, 'Mount Kenya', 5199, 12),
+       (78, 'Mount Logan', 5959, 18),
+       (79, 'Mount McKinley', 6194, 1),
+       (80, 'Mount Shinn', 4661, 19),
+       (81, 'Mount Sidley', 4285, 8),
+       (82, 'Mount Tyree', 4852, 19),
+       (83, 'Musala', 2925, 17),
+       (84, 'Ojos del Salado', 6893, 3),
+       (85, 'Pico de Orizaba', 5636, 22),
+       (86, 'Puncak Trikora', 4750, 15),
+       (87, 'Shkhara', 5193, 5),
+       (88, 'Vihren', 2914, 16),
+       (89, 'Vinson Massif', 4897, 7),
+       (90, 'Golyam Perelik', 2191, 23),
+       (91, 'Shirokolashki Snezhnik', 2188, 23),
+       (92, 'Golyam Persenk', 2091, 23),
+       (93, 'Batashki Snezhnik', 2082, 23),
+       (94, 'Cerro Bonete', 6759, 3),
+       (95, 'Galán', 5912, 3),
+       (96, 'Mercedario', 6720, 3),
+       (97, 'Pissis', 6795, 3),
+       (98, 'Lhotse', 8516, 9),
+       (99, 'Makalu', 8462, 9),
+       (100, 'Cho Oyu', 8201, 9),
+       (101, 'Kutelo', 2908, 16),
+       (102, 'Banski Suhodol', 2884, 16),
+       (103, 'Golyam Polezhan', 2851, 16),
+       (104, 'Kamenitsa', 2822, 16),
+       (105, 'Malak Polezhan', 2822, 16),
+       (106, 'Malka Musala', 2902, 17),
+       (107, 'Orlovets', 2685, 17),
+       (108, 'Vezhen', 2198, 4),
+       (109, 'Kom', 2016, 4);
+/*!40000 ALTER TABLE `peaks`
+    ENABLE KEYS */;
+
+
+
+CREATE TABLE IF NOT EXISTS `rivers`
+(
+    `id`                int(10)     NOT NULL AUTO_INCREMENT,
+    `river_name`        varchar(50) NOT NULL,
+    `length`            int(10)     NOT NULL,
+    `drainage_area`     int(10)     NOT NULL,
+    `average_discharge` int(10)     NOT NULL,
+    `outflow`           varchar(50) NOT NULL,
+    PRIMARY KEY (`id`),
+    UNIQUE KEY `PK_Rivers` (`id`)
+) ENGINE = InnoDB
+  AUTO_INCREMENT = 31
+  DEFAULT CHARSET = utf8;
+
+
+/*!40000 ALTER TABLE `rivers`
+    DISABLE KEYS */;
+INSERT INTO `rivers` (`id`, `river_name`, `length`, `drainage_area`, `average_discharge`, `outflow`)
+VALUES (1, 'Nile', 6650, 3254555, 5100, 'Mediterranean'),
+       (2, 'Amazon', 6400, 7050000, 219000, 'Atlantic Ocean'),
+       (3, 'Yangtze', 6300, 1800000, 31900, 'East China Sea'),
+       (4, 'Mississippi', 6275, 2980000, 16200, 'Gulf of Mexico'),
+       (5, 'Yenisei', 5539, 2580000, 19600, 'Kara Sea'),
+       (6, 'Yellow River', 5464, 745000, 2110, 'Bohai Sea'),
+       (7, 'Ob', 5410, 2990000, 12800, 'Gulf of Ob'),
+       (8, 'Paraná', 4880, 2582672, 18000, 'Río de la Plata'),
+       (9, 'Congo', 4700, 3680000, 41800, 'Atlantic Ocean'),
+       (10, 'Amur', 4444, 1855000, 11400, 'Sea of Okhotsk'),
+       (11, 'Lena', 4400, 2490000, 17100, 'Laptev Sea'),
+       (12, 'Mekong', 4350, 810000, 16000, 'South China Sea'),
+       (13, 'Mackenzie', 4241, 1790000, 10300, 'Beaufort Sea'),
+       (14, 'Niger', 4200, 2090000, 9570, 'Gulf of Guinea'),
+       (15, 'Murray', 3672, 1061000, 7670, 'Southern Ocean'),
+       (16, 'Tocantins', 3650, 950000, 13598, 'Atlantic Ocean, Amazon'),
+       (17, 'Volga', 3645, 1380000, 8080, 'Caspian Sea'),
+       (18, 'Shatt al-Arab', 3596, 884000, 8560, 'Persian Gulf'),
+       (19, 'Madeira', 3380, 1485200, 31200, 'Amazon'),
+       (20, 'Purús', 3211, 63166, 8400, 'Amazon'),
+       (21, 'Yukon', 3185, 850000, 6210, 'Bering Sea'),
+       (22, 'Indus', 3180, 960000, 7160, 'Arabian Sea'),
+       (23, 'São Francisco', 3180, 610000, 3300, 'Atlantic Ocean'),
+       (24, 'Syr Darya', 3078, 219000, 7030, 'Aral Sea'),
+       (25, 'Salween', 3060, 324000, 3153, 'Andaman Sea'),
+       (26, 'Saint Lawrence', 3058, 1030000, 10100, 'Gulf of Saint Lawrence'),
+       (27, 'Rio Grande', 3057, 570000, 820, 'Gulf of Mexico'),
+       (28, 'Lower Tunguska', 2989, 473000, 3600, 'Yenisei'),
+       (29, 'Brahmaputra', 2948, 1730000, 19200, 'Ganges'),
+       (30, 'Danube', 2888, 817000, 7130, 'Black Sea');
+/*!40000 ALTER TABLE `rivers`
+    ENABLE KEYS */;
+/*!40101 SET SQL_MODE = IFNULL(@OLD_SQL_MODE, '') */;
+/*!40014 SET FOREIGN_KEY_CHECKS = IF(@OLD_FOREIGN_KEY_CHECKS IS NULL, 1, @OLD_FOREIGN_KEY_CHECKS) */;
+/*!40101 SET CHARACTER_SET_CLIENT = @OLD_CHARACTER_SET_CLIENT */;
+
