@@ -330,3 +330,25 @@ CREATE TABLE IF NOT EXISTS `departments`
 ) ENGINE = InnoDB
   AUTO_INCREMENT = 17
   DEFAULT CHARSET = utf8;
+
+/*!40000 ALTER TABLE `departments`
+    DISABLE KEYS */;
+INSERT INTO `departments` (`department_id`, `name`, `manager_id`)
+VALUES (1, 'Engineering', 12),
+       (2, 'Tool Design', 4),
+       (3, 'Sales', 273),
+       (4, 'Marketing', 46),
+       (5, 'Purchasing', 6),
+       (6, 'Research and Development', 42),
+       (7, 'Production', 148),
+       (8, 'Production Control', 21),
+       (9, 'Human Resources', 30),
+       (10, 'Finance', 3),
+       (11, 'Information Services', 42),
+       (12, 'Document Control', 90),
+       (13, 'Quality Assurance', 274),
+       (14, 'Facilities and Maintenance', 218),
+       (15, 'Shipping and Receiving', 85),
+       (16, 'Executive', 109);
+/*!40000 ALTER TABLE `departments`
+    ENABLE KEYS */;
