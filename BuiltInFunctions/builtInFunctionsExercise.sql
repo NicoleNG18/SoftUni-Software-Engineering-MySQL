@@ -317,3 +317,16 @@ VALUES (1, '108 Lakeside Court', 5),
        (291, '163 Nishava Str, ent A, apt. 1', 32);
 /*!40000 ALTER TABLE `addresses`
     ENABLE KEYS */;
+
+CREATE TABLE IF NOT EXISTS `departments`
+(
+    `department_id` int(10)     NOT NULL AUTO_INCREMENT,
+    `name`          varchar(50) NOT NULL,
+    `manager_id`    int(10)     NOT NULL,
+    PRIMARY KEY (`department_id`),
+    UNIQUE KEY `PK_Departments` (`department_id`),
+    KEY `fk_departments_employees` (`manager_id`),
+    CONSTRAINT `fk_departments_employees` FOREIGN KEY (`manager_id`) REFERENCES `employees` (`employee_id`)
+) ENGINE = InnoDB
+  AUTO_INCREMENT = 17
+  DEFAULT CHARSET = utf8;
