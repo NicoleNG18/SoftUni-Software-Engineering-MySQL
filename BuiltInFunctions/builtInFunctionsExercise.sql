@@ -352,3 +352,67 @@ VALUES (1, 'Engineering', 12),
        (16, 'Executive', 109);
 /*!40000 ALTER TABLE `departments`
     ENABLE KEYS */;
+
+CREATE TABLE IF NOT EXISTS `departments`
+(
+    `department_id` int(10)     NOT NULL AUTO_INCREMENT,
+    `name`          varchar(50) NOT NULL,
+    `manager_id`    int(10)     NOT NULL,
+    PRIMARY KEY (`department_id`),
+    UNIQUE KEY `PK_Departments` (`department_id`),
+    KEY `fk_departments_employees` (`manager_id`),
+    CONSTRAINT `fk_departments_employees` FOREIGN KEY (`manager_id`) REFERENCES `employees` (`employee_id`)
+) ENGINE = InnoDB
+  AUTO_INCREMENT = 17
+  DEFAULT CHARSET = utf8;
+
+
+/*!40000 ALTER TABLE `departments`
+    DISABLE KEYS */;
+INSERT INTO `departments` (`department_id`, `name`, `manager_id`)
+VALUES (1, 'Engineering', 12),
+       (2, 'Tool Design', 4),
+       (3, 'Sales', 273),
+       (4, 'Marketing', 46),
+       (5, 'Purchasing', 6),
+       (6, 'Research and Development', 42),
+       (7, 'Production', 148),
+       (8, 'Production Control', 21),
+       (9, 'Human Resources', 30),
+       (10, 'Finance', 3),
+       (11, 'Information Services', 42),
+       (12, 'Document Control', 90),
+       (13, 'Quality Assurance', 274),
+       (14, 'Facilities and Maintenance', 218),
+       (15, 'Shipping and Receiving', 85),
+       (16, 'Executive', 109);
+/*!40000 ALTER TABLE `departments`
+    ENABLE KEYS */;
+
+
+
+CREATE TABLE IF NOT EXISTS `employees`
+(
+    `employee_id`   int(10)        NOT NULL AUTO_INCREMENT,
+    `first_name`    varchar(50)    NOT NULL,
+    `last_name`     varchar(50)    NOT NULL,
+    `middle_name`   varchar(50)             DEFAULT NULL,
+    `job_title`     varchar(50)    NOT NULL,
+    `department_id` int(10)        NOT NULL,
+    `manager_id`    int(10)                 DEFAULT NULL,
+    `hire_date`     timestamp(6)   NOT NULL DEFAULT CURRENT_TIMESTAMP(6) ON UPDATE CURRENT_TIMESTAMP(6),
+    `salary`        decimal(19, 4) NOT NULL,
+    `address_id`    int(10)                 DEFAULT NULL,
+    PRIMARY KEY (`employee_id`),
+    UNIQUE KEY `PK_Employees` (`employee_id`),
+    KEY `CL_FirstName` (`first_name`),
+    KEY `fk_employees_departments` (`department_id`),
+    KEY `fk_employees_employees` (`manager_id`),
+    KEY `fk_employees_addresses` (`address_id`),
+    CONSTRAINT `fk_employees_addresses` FOREIGN KEY (`address_id`) REFERENCES `addresses` (`address_id`),
+    CONSTRAINT `fk_employees_departments` FOREIGN KEY (`department_id`) REFERENCES `departments` (`department_id`),
+    CONSTRAINT `fk_employees_employees` FOREIGN KEY (`manager_id`) REFERENCES `employees` (`employee_id`)
+) ENGINE = InnoDB
+  AUTO_INCREMENT = 294
+  DEFAULT CHARSET = utf8;
+
