@@ -1889,5 +1889,179 @@ VALUES (1, 'Classic Vest',
 /*!40000 ALTER TABLE `projects`
     ENABLE KEYS */;
 
+CREATE TABLE IF NOT EXISTS `towns`
+(
+    `town_id` int(10)     NOT NULL AUTO_INCREMENT,
+    `name`    varchar(50) NOT NULL,
+    PRIMARY KEY (`town_id`),
+    UNIQUE KEY `PK_Towns` (`town_id`)
+) ENGINE = InnoDB
+  AUTO_INCREMENT = 33
+  DEFAULT CHARSET = utf8;
+
+
+/*!40000 ALTER TABLE `towns`
+    DISABLE KEYS */;
+INSERT INTO `towns` (`town_id`, `name`)
+VALUES (1, 'Redmond'),
+       (2, 'Calgary'),
+       (3, 'Edmonds'),
+       (4, 'Seattle'),
+       (5, 'Bellevue'),
+       (6, 'Issaquah'),
+       (7, 'Everett'),
+       (8, 'Bothell'),
+       (9, 'San Francisco'),
+       (10, 'Index'),
+       (11, 'Snohomish'),
+       (12, 'Monroe'),
+       (13, 'Renton'),
+       (14, 'Newport Hills'),
+       (15, 'Carnation'),
+       (16, 'Sammamish'),
+       (17, 'Duvall'),
+       (18, 'Gold Bar'),
+       (19, 'Nevada'),
+       (20, 'Kenmore'),
+       (21, 'Melbourne'),
+       (22, 'Kent'),
+       (23, 'Cambridge'),
+       (24, 'Minneapolis'),
+       (25, 'Portland'),
+       (26, 'Duluth'),
+       (27, 'Detroit'),
+       (28, 'Memphis'),
+       (29, 'Ottawa'),
+       (30, 'Bordeaux'),
+       (31, 'Berlin'),
+       (32, 'Sofia');
+/*!40000 ALTER TABLE `towns`
+    ENABLE KEYS */;
+/*!40101 SET SQL_MODE = IFNULL(@OLD_SQL_MODE, '') */;
+/*!40014 SET FOREIGN_KEY_CHECKS = IF(@OLD_FOREIGN_KEY_CHECKS IS NULL, 1, @OLD_FOREIGN_KEY_CHECKS) */;
+/*!40101 SET CHARACTER_SET_CLIENT = @OLD_CHARACTER_SET_CLIENT */;
+
+
+SELECT `first_name`,
+       `last_name`
+FROM `employees`
+WHERE SUBSTRING(`first_name`, 1, 2) = 'Sa'
+   OR 'sa'
+ORDER BY `employee_id`;
+
+
+
+SELECT `first_name`, `last_name`
+FROM `employees`
+WHERE `last_name` LIKE '%ei%'
+ORDER BY `employee_id`;
+
+
+SELECT `first_name`
+FROM `employees`
+WHERE `department_id` IN (3, 10)
+  AND YEAR(`hire_date`) BETWEEN 1995 AND 2005
+ORDER BY `employee_id`;
+
+
+SELECT `first_name`, `last_name`
+FROM `employees`
+WHERE `job_title` NOT LIKE "%engineer%"
+ORDER BY `employee_id`;
+
+SELECT `name`
+FROM `towns`
+WHERE CHAR_LENGTH(`name`) = 5
+   OR CHAR_LENGTH(`name`) = 6
+ORDER BY `name`;
+
+
+SELECT `town_id`, `name`
+FROM `towns`
+WHERE `name` LIKE "B%"
+   OR `name` LIKE "M%"
+   OR `name` LIKE "K%"
+   OR `name` LIKE "E%"
+ORDER BY `name`;
+
+
+SELECT `town_id`, `name`
+FROM `towns`
+WHERE `name` NOT LIKE "R%"
+  AND `name` NOT LIKE "D%"
+  AND `name` NOT LIKE "B%"
+ORDER BY `name`;
+
+
+CREATE VIEW `v_employees_hired_after_2000` AS
+SELECT `first_name`, `last_name`
+FROM `employees`
+WHERE YEAR(`hire_date`) BETWEEN 2001 AND NOW();
+
+DROP VIEW `v_employees_hired_after_2000`;
+
+SELECT *
+FROM `v_employees_hired_after_2000`;
+
+SELECT `first_name`, `last_name`
+FROM `employees`
+WHERE CHAR_LENGTH(`last_name`) = 5;
+
+
+-- GEORGRAPHY DB
+SELECT `country_name`, `iso_code`
+FROM `countries`
+WHERE `country_name` LIKE "%a%a%a%"
+ORDER BY `iso_code`;
+
+SELECT `peak_name`, `river_name`, (CONCAT(LOWER(`peak_name`), LOWER(SUBSTRING(`river_name`, 2)))) AS `mix`
+FROM `peaks`,
+     `rivers`
+WHERE RIGHT(`peak_name`, 1) = LEFT(`river_name`, 1)
+ORDER BY `mix`;
+
+
+-- DIABLO DB
+
+SELECT `name`, DATE_FORMAT(`start`, '%Y-%m-%d') AS `start`
+FROM `games`
+WHERE YEAR(`start`) IN (2011, 2012)
+ORDER BY `start`, `name`
+LIMIT 50;
+
+SELECT `user_name`, SUBSTRING(`email`, LOCATE('@', `email`) + 1) AS `email provider`
+FROM `users`
+ORDER BY `email provider`, `user_name`;
+
+
+SELECT `user_name`, `ip_address`
+FROM `users`
+WHERE `ip_address` LIKE "___.1%.%.___"
+ORDER BY `user_name`;
+
+
+SELECT `name` AS `game`,
+       CASE
+           WHEN HOUR(`start`) >= 0 AND HOUR(`start`) < 12 THEN "Morning"
+           WHEN HOUR(`start`) >= 12 AND HOUR(`start`) < 18 THEN "Afternoon"
+           ELSE "Evening"
+           END
+              AS `Part of the Day`,
+       CASE
+           WHEN `duration` <= 3 THEN "Extra Short"
+           WHEN `duration` > 3 AND `duration` <= 6 THEN "Short"
+           WHEN `duration` > 6 AND `duration` <= 10 THEN "Long"
+           ELSE "Extra Long"
+           END
+              AS `Duration`
+FROM `games`;
+
+-- ORDERS DB
+
+SELECT `product_name`,
+       `order_date`,
+       ADDDATE(`order_date`, INTERVAL 3 DAY)   AS `pay_due`,
+       ADDDATE(`order_date`, INTERVAL 1 MONTH) AS `deliver_due`
+FROM `orders`;
 
 
