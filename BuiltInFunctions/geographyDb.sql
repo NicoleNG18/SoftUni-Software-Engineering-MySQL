@@ -610,3 +610,168 @@ VALUES ('AED', 'United Arab Emirates Dirham'),
        ('ZWD', 'Zimbabwe Dollar');
 /*!40000 ALTER TABLE `currencies`
     ENABLE KEYS */;
+
+CREATE TABLE IF NOT EXISTS `mountains`
+(
+    `id`             int(10)     NOT NULL AUTO_INCREMENT,
+    `mountain_range` varchar(50) NOT NULL,
+    PRIMARY KEY (`id`),
+    UNIQUE KEY `PK_Mountains` (`id`)
+) ENGINE = InnoDB
+  AUTO_INCREMENT = 27
+  DEFAULT CHARSET = utf8;
+
+
+/*!40000 ALTER TABLE `mountains`
+    DISABLE KEYS */;
+INSERT INTO `mountains` (`id`, `mountain_range`)
+VALUES (1, 'Alaska Range'),
+       (2, 'Alborz'),
+       (3, 'Andes'),
+       (4, 'Balkan Mountains'),
+       (5, 'Caucasus'),
+       (6, 'Cordillera Neovolcanica'),
+       (7, 'Ellsworth Mountains'),
+       (8, 'Executive Committee Range'),
+       (9, 'Himalayas'),
+       (10, 'Jayawijaya Mountains'),
+       (11, 'Karakoram'),
+       (12, 'Kenyan Highlands'),
+       (13, 'Kilimanjaro'),
+       (14, 'Kilimanjaro Region'),
+       (15, 'Maoke Mountains'),
+       (16, 'Pirin'),
+       (17, 'Rila'),
+       (18, 'Saint Elias Mountains'),
+       (19, 'Sentinel Range'),
+       (20, 'Southern Highlands'),
+       (21, 'The Sudirman Range'),
+       (22, 'Trans-Mexican Volcanic Belt'),
+       (23, 'Rhodope Mountains'),
+       (24, 'Vitosha'),
+       (25, 'Strandza'),
+       (26, 'Monte Rosa');
+/*!40000 ALTER TABLE `mountains`
+    ENABLE KEYS */;
+
+
+
+CREATE TABLE IF NOT EXISTS `mountains_countries`
+(
+    `mountain_id`  int(10) NOT NULL,
+    `country_code` char(2) NOT NULL,
+    PRIMARY KEY (`mountain_id`, `country_code`),
+    UNIQUE KEY `PK_MountainsContinents` (`mountain_id`, `country_code`),
+    KEY `fk_mountains_countries_mountains` (`country_code`),
+    CONSTRAINT `fk_mountains_countries_countries` FOREIGN KEY (`mountain_id`) REFERENCES `mountains` (`id`),
+    CONSTRAINT `fk_mountains_countries_mountains` FOREIGN KEY (`country_code`) REFERENCES `countries` (`country_code`)
+) ENGINE = InnoDB
+  DEFAULT CHARSET = utf8;
+
+
+/*!40000 ALTER TABLE `mountains_countries`
+    DISABLE KEYS */;
+INSERT INTO `mountains_countries` (`mountain_id`, `country_code`)
+VALUES (3, 'AR'),
+       (4, 'BG'),
+       (16, 'BG'),
+       (17, 'BG'),
+       (23, 'BG'),
+       (24, 'BG'),
+       (25, 'BG'),
+       (18, 'CA'),
+       (26, 'CH'),
+       (3, 'CL'),
+       (9, 'CN'),
+       (11, 'CN'),
+       (5, 'GE'),
+       (10, 'ID'),
+       (15, 'ID'),
+       (21, 'ID'),
+       (9, 'IN'),
+       (2, 'IR'),
+       (26, 'IT'),
+       (12, 'KE'),
+       (6, 'MX'),
+       (22, 'MX'),
+       (9, 'NP'),
+       (20, 'PG'),
+       (11, 'PK'),
+       (5, 'RU'),
+       (13, 'TZ'),
+       (14, 'TZ'),
+       (1, 'US');
+/*!40000 ALTER TABLE `mountains_countries`
+    ENABLE KEYS */;
+
+
+
+CREATE TABLE IF NOT EXISTS `peaks`
+(
+    `id`          int(10)     NOT NULL AUTO_INCREMENT,
+    `peak_name`   varchar(50) NOT NULL,
+    `elevation`   int(10)     NOT NULL,
+    `mountain_id` int(10)     NOT NULL,
+    PRIMARY KEY (`id`),
+    UNIQUE KEY `PK_Peaks` (`id`),
+    KEY `fk_peaks_mountains` (`mountain_id`),
+    CONSTRAINT `fk_peaks_mountains` FOREIGN KEY (`mountain_id`) REFERENCES `mountains` (`id`)
+) ENGINE = InnoDB
+  AUTO_INCREMENT = 110
+  DEFAULT CHARSET = utf8;
+
+
+/*!40000 ALTER TABLE `peaks`
+    DISABLE KEYS */;
+INSERT INTO `peaks` (`id`, `peak_name`, `elevation`, `mountain_id`)
+VALUES (62, 'Aconcagua', 6962, 3),
+       (63, 'Botev', 2376, 4),
+       (64, 'Carstensz Pyramid', 4884, 21),
+       (65, 'Damavand', 5610, 2),
+       (66, 'Dykh-Tau', 5205, 5),
+       (67, 'Elbrus', 5642, 5),
+       (68, 'Everest', 8848, 9),
+       (69, 'Julianatop', 4760, 10),
+       (70, 'K2', 8611, 11),
+       (71, 'Kangchenjunga', 8586, 9),
+       (72, 'Kilimanjaro', 5895, 13),
+       (73, 'Malyovitsa', 2729, 17),
+       (74, 'Mawenzi', 5149, 14),
+       (75, 'Monte Pissis', 6793, 3),
+       (76, 'Mount Giluwe', 4368, 20),
+       (77, 'Mount Kenya', 5199, 12),
+       (78, 'Mount Logan', 5959, 18),
+       (79, 'Mount McKinley', 6194, 1),
+       (80, 'Mount Shinn', 4661, 19),
+       (81, 'Mount Sidley', 4285, 8),
+       (82, 'Mount Tyree', 4852, 19),
+       (83, 'Musala', 2925, 17),
+       (84, 'Ojos del Salado', 6893, 3),
+       (85, 'Pico de Orizaba', 5636, 22),
+       (86, 'Puncak Trikora', 4750, 15),
+       (87, 'Shkhara', 5193, 5),
+       (88, 'Vihren', 2914, 16),
+       (89, 'Vinson Massif', 4897, 7),
+       (90, 'Golyam Perelik', 2191, 23),
+       (91, 'Shirokolashki Snezhnik', 2188, 23),
+       (92, 'Golyam Persenk', 2091, 23),
+       (93, 'Batashki Snezhnik', 2082, 23),
+       (94, 'Cerro Bonete', 6759, 3),
+       (95, 'Galán', 5912, 3),
+       (96, 'Mercedario', 6720, 3),
+       (97, 'Pissis', 6795, 3),
+       (98, 'Lhotse', 8516, 9),
+       (99, 'Makalu', 8462, 9),
+       (100, 'Cho Oyu', 8201, 9),
+       (101, 'Kutelo', 2908, 16),
+       (102, 'Banski Suhodol', 2884, 16),
+       (103, 'Golyam Polezhan', 2851, 16),
+       (104, 'Kamenitsa', 2822, 16),
+       (105, 'Malak Polezhan', 2822, 16),
+       (106, 'Malka Musala', 2902, 17),
+       (107, 'Orlovets', 2685, 17),
+       (108, 'Vezhen', 2198, 4),
+       (109, 'Kom', 2016, 4);
+/*!40000 ALTER TABLE `peaks`
+    ENABLE KEYS */;
+
