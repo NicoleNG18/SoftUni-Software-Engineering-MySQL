@@ -775,3 +775,56 @@ VALUES (62, 'Aconcagua', 6962, 3),
 /*!40000 ALTER TABLE `peaks`
     ENABLE KEYS */;
 
+CREATE TABLE IF NOT EXISTS `rivers`
+(
+    `id`                int(10)     NOT NULL AUTO_INCREMENT,
+    `river_name`        varchar(50) NOT NULL,
+    `length`            int(10)     NOT NULL,
+    `drainage_area`     int(10)     NOT NULL,
+    `average_discharge` int(10)     NOT NULL,
+    `outflow`           varchar(50) NOT NULL,
+    PRIMARY KEY (`id`),
+    UNIQUE KEY `PK_Rivers` (`id`)
+) ENGINE = InnoDB
+  AUTO_INCREMENT = 31
+  DEFAULT CHARSET = utf8;
+
+
+/*!40000 ALTER TABLE `rivers`
+    DISABLE KEYS */;
+INSERT INTO `rivers` (`id`, `river_name`, `length`, `drainage_area`, `average_discharge`, `outflow`)
+VALUES (1, 'Nile', 6650, 3254555, 5100, 'Mediterranean'),
+       (2, 'Amazon', 6400, 7050000, 219000, 'Atlantic Ocean'),
+       (3, 'Yangtze', 6300, 1800000, 31900, 'East China Sea'),
+       (4, 'Mississippi', 6275, 2980000, 16200, 'Gulf of Mexico'),
+       (5, 'Yenisei', 5539, 2580000, 19600, 'Kara Sea'),
+       (6, 'Yellow River', 5464, 745000, 2110, 'Bohai Sea'),
+       (7, 'Ob', 5410, 2990000, 12800, 'Gulf of Ob'),
+       (8, 'Paraná', 4880, 2582672, 18000, 'Río de la Plata'),
+       (9, 'Congo', 4700, 3680000, 41800, 'Atlantic Ocean'),
+       (10, 'Amur', 4444, 1855000, 11400, 'Sea of Okhotsk'),
+       (11, 'Lena', 4400, 2490000, 17100, 'Laptev Sea'),
+       (12, 'Mekong', 4350, 810000, 16000, 'South China Sea'),
+       (13, 'Mackenzie', 4241, 1790000, 10300, 'Beaufort Sea'),
+       (14, 'Niger', 4200, 2090000, 9570, 'Gulf of Guinea'),
+       (15, 'Murray', 3672, 1061000, 7670, 'Southern Ocean'),
+       (16, 'Tocantins', 3650, 950000, 13598, 'Atlantic Ocean, Amazon'),
+       (17, 'Volga', 3645, 1380000, 8080, 'Caspian Sea'),
+       (18, 'Shatt al-Arab', 3596, 884000, 8560, 'Persian Gulf'),
+       (19, 'Madeira', 3380, 1485200, 31200, 'Amazon'),
+       (20, 'Purús', 3211, 63166, 8400, 'Amazon'),
+       (21, 'Yukon', 3185, 850000, 6210, 'Bering Sea'),
+       (22, 'Indus', 3180, 960000, 7160, 'Arabian Sea'),
+       (23, 'São Francisco', 3180, 610000, 3300, 'Atlantic Ocean'),
+       (24, 'Syr Darya', 3078, 219000, 7030, 'Aral Sea'),
+       (25, 'Salween', 3060, 324000, 3153, 'Andaman Sea'),
+       (26, 'Saint Lawrence', 3058, 1030000, 10100, 'Gulf of Saint Lawrence'),
+       (27, 'Rio Grande', 3057, 570000, 820, 'Gulf of Mexico'),
+       (28, 'Lower Tunguska', 2989, 473000, 3600, 'Yenisei'),
+       (29, 'Brahmaputra', 2948, 1730000, 19200, 'Ganges'),
+       (30, 'Danube', 2888, 817000, 7130, 'Black Sea');
+/*!40000 ALTER TABLE `rivers`
+    ENABLE KEYS */;
+/*!40101 SET SQL_MODE = IFNULL(@OLD_SQL_MODE, '') */;
+/*!40014 SET FOREIGN_KEY_CHECKS = IF(@OLD_FOREIGN_KEY_CHECKS IS NULL, 1, @OLD_FOREIGN_KEY_CHECKS) */;
+/*!40101 SET CHARACTER_SET_CLIENT = @OLD_CHARACTER_SET_CLIENT */;
