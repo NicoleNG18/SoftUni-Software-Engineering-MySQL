@@ -87,3 +87,32 @@ FROM `employees` AS e
      `projects` AS p ON ep.`project_id` = p.`project_id`
 WHERE e.`employee_id` = 24
 ORDER BY p.`name`;
+
+SELECT e.`employee_id`,
+       e.`first_name`,
+       e.`manager_id`,
+       m.`first_name` AS `manager_name`
+FROM `employees` AS e
+         JOIN
+     `employees` AS m ON e.`manager_id` = m.`employee_id`
+WHERE e.`manager_id` IN (3, 7)
+ORDER BY e.`first_name`;
+
+SELECT e.`employee_id`,
+       CONCAT(e.`first_name`, ' ', e.`last_name`) AS `employee_name`,
+       CONCAT(m.`first_name`, ' ', m.`last_name`) AS `manager_name`,
+       d.`name`                                   AS `department_name`
+FROM `employees` AS e
+         JOIN
+     `employees` AS m ON e.`manager_id` = m.`employee_id`
+         JOIN
+     `departments` AS d ON e.`department_id` = d.`department_id`
+ORDER BY e.`employee_id`
+LIMIT 5;
+
+SELECT AVG(`salary`) as `min_average_salary`
+FROM `employees`
+GROUP BY `department_id`
+ORDER BY `min_average_salary`
+LIMIT 1;
+
