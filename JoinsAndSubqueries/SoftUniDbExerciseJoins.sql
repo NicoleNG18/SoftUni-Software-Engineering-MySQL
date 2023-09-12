@@ -159,4 +159,32 @@ FROM `countries` AS c
      `mountains` AS m ON mc.`mountain_id` = m.`id`
 WHERE m.`id` IS NULL;
 
+SELECT c.`country_name`,
+       MAX(p.`elevation`) AS `highest_peak_elevation`,
+       MAX(r.`length`)    AS `longest_river_length`
+FROM `countries` AS c
+         LEFT JOIN
+     `mountains_countries` AS mc ON c.`country_code` = mc.`country_code`
+         LEFT JOIN
+     `peaks` AS p ON mc.`mountain_id` = p.`mountain_id`
+         LEFT JOIN
+     `countries_rivers` AS cr ON c.`country_code` = cr.`country_code`
+         LEFT JOIN
+     `rivers` AS r ON cr.`river_id` = r.`id`
+group by c.`country_name`
+ORDER BY `highest_peak_elevation` DESC, `longest_river_length` DESC, c.`country_name`
+LIMIT 5;
+
+
+
+SELECT c.`continent_code`,
+       c.`currency_code`,
+       COUNT(c.`currency_code`) AS `currency_usage`
+FROM `countries` AS c
+         left JOIN
+     `currencies` AS cr ON c.`currency_code` = cr.`currency_code`
+GROUP BY c.`continent_code`
+ORDER BY c.`continent_code`, c.`currency_code`;
+
+
 
