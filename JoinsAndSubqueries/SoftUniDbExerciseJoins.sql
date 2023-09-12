@@ -140,3 +140,23 @@ WHERE c.`country_code` IN ('BG', 'US', 'RU')
 group by c.`country_code`
 ORDER BY `mountain_range` DESC;
 
+SELECT c.`country_name`,
+       r.`river_name`
+FROM `countries` AS c
+         left JOIN
+     `countries_rivers` AS cr ON c.`country_code` = cr.`country_code`
+         left JOIN
+     `rivers` AS r ON cr.`river_id` = r.`id`
+WHERE c.`continent_code` = 'AF'
+ORDER BY c.`country_name`
+LIMIT 5;
+
+SELECT COUNT(c.`country_code`) as `country_count`
+FROM `countries` AS c
+         left JOIN
+     `mountains_countries` AS mc ON c.`country_code` = mc.`country_code`
+         left JOIN
+     `mountains` AS m ON mc.`mountain_id` = m.`id`
+WHERE m.`id` IS NULL;
+
+
