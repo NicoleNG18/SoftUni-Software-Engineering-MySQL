@@ -1,0 +1,65 @@
+delimiter $$
+create procedure usp_get_holders_full_name()
+begin
+    select concat(`first_name`, " ", `last_name`) as `full_name`
+    from `account_holders` as ah
+    order by `full_name`, ah.`id`;
+end$$
+
+call usp_get_holders_full_name()$$
+
+CREATE PROCEDURE usp_get_holders_with_balance_higher_than(money decimal(12, 4))
+BEGIN
+    SELECT h.`first_name`, h.`last_name`
+    FROM `account_holders` as h
+             LEFT JOIN `accounts` as a ON h.`id` = a.`account_holder_id`
+    GROUP BY h.`first_name`, h.`last_name`
+    HAVING SUM(a.`balance`) > `money`
+    ORDER BY h.`id`;
+END$$
+
+call usp_get_holders_with_balance_higher_than(7000)$$
+
+create function ufn_calculate_future_value(initial_sum decimal(19, 4), yearly_interest_rate decimal(19, 4),
+                                           number_of_years int)
+    returns decimal(39, 4)
+    deterministic
+begin
+    declare result decimal(39, 4);
+    set result := initial_sum * pow((1 + yearly_interest_rate), number_of_years);
+    return result;
+end$$
+
+select ufn_calculate_future_value(1000, 0.5, 5)$$
+
+
+
+create procedure usp_calculate_future_value_for_account(id int, interest_rate decimal(19, 4))
+begin
+    select a.`id`,
+           ah.`first_name`,
+           ah.`last_name`,
+           a.`balance`,
+           ufn_calculate_future_value(a.`balance`, interest_rate, 5) as `balance_in_5_years`
+    from `account_holders` as ah
+             join `accounts` as a
+                  on ah.`id` = a.`account_holder_id`
+    where a.`id` = id;
+end$$
+
+call usp_calculate_future_value_for_account(1, 0.1)$$
+
+create procedure usp_deposit_money(account_id int, money_amount decimal(19, 4))
+begin
+    start transaction;
+    if money_amount < 0
+    then
+        rollback;
+    else
+        update `accounts`
+        set `balance`=`balance` + money_amount
+        where `id` = account_id;
+    end if;
+end$$
+
+call usp_deposit_money(1, 10)$$
