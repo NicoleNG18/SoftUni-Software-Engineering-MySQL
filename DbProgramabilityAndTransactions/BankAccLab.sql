@@ -100,3 +100,43 @@ begin
         commit;
     end if;
 end$$
+
+create table `logs`
+(
+    `log_id`     int primary key auto_increment,
+    `account_id` int            not null,
+    `old_sum`    decimal(19, 4) not null,
+    `new_sum`    decimal(19, 4) not null
+)
+$$
+
+create trigger add_log
+    after update
+    on `accounts`
+    for each row
+begin
+    insert into `logs` (`account_id`, `old_sum`, `new_sum`)
+    values (old.`id`, old.`balance`, new.`balance`);
+end$$
+
+
+
+create table `notification_emails`
+(
+    `id`        int primary key auto_increment,
+    `recipient` int not null,
+    `subject`   text,
+    `body`      text
+)$$
+
+create trigger add_email
+    after insert
+    on `logs`
+    for each row
+begin
+    insert into `notification_emails` (`recipient`, `subject`, `body`)
+    values (new.`account_id`,
+            concat("Balance change for account: ", `account_id`),
+            concat("On ", now(), " your balance was changed from ", new.`old_sum`, " to ", new.`new_sum`, "."));
+end$$
+
