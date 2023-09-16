@@ -63,3 +63,40 @@ begin
 end$$
 
 call usp_deposit_money(1, 10)$$
+
+create procedure usp_withdraw_money(account_id int, money_amount decimal(19, 4))
+begin
+    start transaction;
+    if (money_amount <= 0 OR (SELECT `balance` FROM accounts AS a WHERE a.`id` = id) < money_amount)
+    then
+        rollback;
+    else
+        update `accounts`
+        set `balance`=`balance` - money_amount
+        where `id` = account_id;
+        commit;
+    end if;
+end$$
+
+
+create procedure usp_transfer_money(from_account_id int, to_account_id int, amount decimal(19, 4))
+begin
+    start transaction;
+    if
+                from_account_id = to_account_id or
+                amount <= 0 or
+                (amount > (select `balance` from `accounts` where `id` = from_account_id) or
+                 (select count(`id`) from `accounts` where `id` = from_account_id) <> 1 or
+                 (select count(`id`) from `accounts` where `id` = to_account_id) <> 1)
+    then
+        rollback;
+    else
+        update `accounts`
+        set `balance`=`balance` - amount
+        where `id` = from_account_id;
+        update `accounts`
+        set `balance`=`balance` + amount
+        where `id` = to_account_id;
+        commit;
+    end if;
+end$$
