@@ -517,3 +517,14 @@ insert into coaches (id, first_name, last_name, coach_level) values (7, 'Mickey'
 insert into coaches (id, first_name, last_name, coach_level) values (8, 'Chilton', 'Cookley', 4);
 insert into coaches (id, first_name, last_name, coach_level) values (9, 'Rudie', 'Gorgl', 2);
 insert into coaches (id, first_name, last_name, coach_level) values (10, 'Lewes', 'Dymocke', 7);
+
+insert into players_coaches(player_id , coach_id) VALUE (1, 1);
+insert into players_coaches(player_id , coach_id) VALUE (54, 2);
+insert into players_coaches(player_id , coach_id) VALUE (17, 5);
+insert into players_coaches(player_id , coach_id) VALUE (33, 4);
+insert into players_coaches(player_id , coach_id) VALUE (24, 8);
+insert into players_coaches(player_id , coach_id) VALUE (66, 10);
+insert into players_coaches(player_id , coach_id) VALUE (90, 5);
+insert into players_coaches(player_id , coach_id) VALUE (4, 6);
+insert into players_coaches(player_id , coach_id) VALUE (39, 10);
+insert into players_coaches(player_id , coach_id) VALUE (71, 8);
