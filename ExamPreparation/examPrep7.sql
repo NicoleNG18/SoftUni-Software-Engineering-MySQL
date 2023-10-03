@@ -38,3 +38,40 @@ CREATE TABLE `products`
     `type`  VARCHAR(30)    NOT NULL,
     `price` DECIMAL(10, 2) NOT NULL
 );
+
+CREATE TABLE `orders_products`
+(
+    `order_id`   INT,
+    `product_id` INT,
+    KEY (`order_id`, `product_id`),
+    CONSTRAINT fk_op_o FOREIGN KEY (`order_id`)
+        REFERENCES `orders` (`id`),
+    CONSTRAINT fk_op_p FOREIGN KEY (`product_id`)
+        REFERENCES `products` (`id`)
+);
+
+
+
+CREATE TABLE `clients`
+(
+    `id`         INT AUTO_INCREMENT PRIMARY KEY,
+    `first_name` VARCHAR(50) NOT NULL,
+    `last_name`  VARCHAR(50) NOT NULL,
+    `birthdate`  DATE        NOT NULL,
+    `card`       VARCHAR(50),
+    `review`     TEXT
+);
+
+
+
+CREATE TABLE `orders_clients`
+(
+    `order_id`  INT,
+    `client_id` INT,
+    KEY (`order_id`, `client_id`),
+    CONSTRAINT fk_oc_o FOREIGN KEY (`order_id`)
+        REFERENCES `orders` (`id`),
+    CONSTRAINT fk_oc_c FOREIGN KEY (`client_id`)
+        REFERENCES `clients` (`id`)
+);
+
