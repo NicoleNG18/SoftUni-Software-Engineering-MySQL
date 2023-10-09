@@ -34,3 +34,29 @@ begin
 end$$
 
 CALL udp_happy_hour('Cognac')$$
+
+select `id`, `first_name`, `last_name`, `birthdate`, `card`, `review`
+from `clients`
+order by `birthdate` desc, `id` desc;
+
+select c.`first_name`, c.`last_name`, c.`birthdate`, c.`review`
+from `clients` as c
+where (year(c.`birthdate`) between 1978 and 1993)
+  and c.`card` is null
+order by c.`last_name` desc, c.`id`
+limit 5;
+
+select concat(w.`last_name`, w.`first_name`, char_length(w.`first_name`), "Restaurant") as `username`,
+       substring(1, 4, w.`email`)
+                                                                                        as `password`
+from `waiters` as w
+where w.`salary` is not null
+order by `password` desc;
+
+select p.`id`, p.`name`, count(op.`product_id`) as `count`
+from `products` as p
+         join `orders_products` as op
+              on op.`product_id` = p.`id`
+group by p.`id`
+having `count` >= 5
+order by `count` desc, p.`name`;
