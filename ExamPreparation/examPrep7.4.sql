@@ -60,3 +60,19 @@ from `products` as p
 group by p.`id`
 having `count` >= 5
 order by `count` desc, p.`name`;
+
+select o.`table_id`,
+       t.`capacity`,
+       count(t.`capacity`) as `count_clients`,
+       (case
+            when t.`capacity` > `count_clients` then "Free seats"
+            when t.`capacity` = `count_clients` then "Full"
+            when t.`capacity` < `count_clients` then "Extra seats"
+           end
+           )               as `availability`
+from `orders` as o
+         join `tables` as t
+              on o.`table_id` = t.`id`
+group by o.`table_id`
+having t.`floor` = 1
+order by o.`table_id` desc;
