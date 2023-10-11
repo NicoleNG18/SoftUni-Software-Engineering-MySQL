@@ -30,3 +30,39 @@ CREATE TABLE `offices`
     CONSTRAINT fk_of_ad FOREIGN KEY (`address_id`)
         REFERENCES `addresses` (`id`)
 );
+
+CREATE TABLE `teams`
+(
+    `id`        INT AUTO_INCREMENT PRIMARY KEY,
+    `name`      VARCHAR(40) NOT NULL,
+    `office_id` INT         NOT NULL,
+    `leader_id` INT         NOT NULL UNIQUE,
+    CONSTRAINT fk_t_o FOREIGN KEY (`office_id`)
+        REFERENCES `offices` (`id`),
+    CONSTRAINT fk_t_l FOREIGN KEY (`leader_id`)
+        REFERENCES `employees` (`id`)
+);
+
+CREATE TABLE `games`
+(
+    `id`           INT AUTO_INCREMENT PRIMARY KEY,
+    `name`         VARCHAR(50)    NOT NULL UNIQUE,
+    `description`  TEXT,
+    `rating`       FLOAT          NOT NULL DEFAULT 5.5,
+    `budget`       DECIMAL(10, 2) NOT NULL,
+    `release_date` DATE,
+    `team_id`      INT            NOT NULL,
+    CONSTRAINT fk_g_t FOREIGN KEY (`team_id`)
+        REFERENCES `teams` (`id`)
+);
+
+CREATE TABLE `games_categories`
+(
+    `game_id`     INT NOT NULL,
+    `category_id` INT NOT NULL,
+    CONSTRAINT pk_g_c PRIMARY KEY (`game_id`, `category_id`),
+    CONSTRAINT dk_gc_g FOREIGN KEY (`game_id`)
+        REFERENCES `games` (`id`),
+    CONSTRAINT fk_gc_c FOREIGN KEY (`category_id`)
+        REFERENCES `categories` (`id`)
+);
