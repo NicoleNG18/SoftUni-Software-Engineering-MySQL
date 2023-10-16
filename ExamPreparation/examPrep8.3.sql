@@ -89,3 +89,23 @@ WHERE MOD(MONTH(g.`release_date`), 2) = 0
   AND YEAR(g.`release_date`) = 2022
   AND g.`name` LIKE ('%2')
 ORDER BY `quarter`;
+
+SELECT g.`name`,
+       (CASE
+            WHEN g.`budget` < 50000 THEN 'Normal budget'
+            WHEN g.`budget` >= 50000 THEN 'Insufficient budget'
+           END) AS `budget_level`,
+       t.`name`,
+       a.`name`
+FROM `games` AS g
+         LEFT JOIN
+     `games_categories` AS gc ON g.`id` = gc.`game_id`
+         JOIN
+     `teams` AS t ON t.`id` = g.`team_id`
+         JOIN
+     `offices` AS o ON t.`office_id` = o.`id`
+         JOIN
+     `addresses` AS a ON a.`id` = o.`address_id`
+WHERE g.`release_date` IS NULL
+  AND gc.`category_id` IS NULL
+ORDER BY g.`name`;
