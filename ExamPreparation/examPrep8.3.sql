@@ -18,3 +18,74 @@ from `games` as g
                    on gc.`category_id` = c.`id`
 where g.`release_date` is null
   and gc.`category_id` is null;
+
+SELECT `first_name`,
+       `last_name`,
+       `age`,
+       `salary`,
+       `happiness_level`
+FROM `employees`
+ORDER BY `salary`, `id`;
+
+SELECT t.`name`              AS `team_name`,
+       a.`name`              AS `address_name`,
+       CHAR_LENGTH(a.`name`) AS `count_of_characters`
+FROM `teams` AS t
+         JOIN
+     `offices` AS o ON t.`office_id` = o.`id`
+         JOIN
+     `addresses` AS a ON o.`address_id` = a.`id`
+where o.`website` is not null
+ORDER BY t.`name`, a.`name`;
+
+SELECT c.`name`,
+       COUNT(g.`id`)             AS `games_count`,
+       ROUND(AVG(g.`budget`), 2) AS `avg_budget`,
+       MAX(g.`rating`)           AS `max_rating`
+FROM categories AS c
+         JOIN
+     `games_categories` AS gc ON c.`id` = gc.`category_id`
+         JOIN
+     `games` AS g ON gc.`game_id` = g.`id`
+GROUP BY c.`name`
+HAVING `max_rating` >= 9.5
+ORDER BY `games_count` DESC, c.`name`;
+
+
+SELECT g.`name`,
+       g.`release_date`,
+       CONCAT(SUBSTRING(g.`description`, 1, 10), '...') AS `summary`,
+       (CASE
+            WHEN
+                        MONTH(g.`release_date`) = 01
+                    OR MONTH(g.`release_date`) = 02
+                    OR MONTH(g.`release_date`) = 03
+                THEN
+                'Q1'
+            WHEN
+                        MONTH(g.`release_date`) = 04
+                    OR MONTH(g.`release_date`) = 05
+                    OR MONTH(g.`release_date`) = 06
+                THEN
+                'Q2'
+            WHEN
+                        MONTH(g.`release_date`) = 07
+                    OR MONTH(g.`release_date`) = 08
+                    OR MONTH(g.`release_date`) = 09
+                THEN
+                'Q3'
+            WHEN
+                        MONTH(g.`release_date`) = 10
+                    OR MONTH(g.`release_date`) = 11
+                    OR MONTH(g.`release_date`) = 12
+                THEN
+                'Q4'
+           END)                                         AS `quarter`,
+       t.`name`
+FROM `games` AS g
+         JOIN
+     `teams` AS t ON t.`id` = g.`team_id`
+WHERE MOD(MONTH(g.`release_date`), 2) = 0
+  AND YEAR(g.`release_date`) = 2022
+  AND g.`name` LIKE ('%2')
+ORDER BY `quarter`;
