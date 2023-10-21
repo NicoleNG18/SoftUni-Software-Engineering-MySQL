@@ -109,3 +109,46 @@ FROM `games` AS g
 WHERE g.`release_date` IS NULL
   AND gc.`category_id` IS NULL
 ORDER BY g.`name`;
+
+delimiter $$
+create procedure udp_update_budget(min_game_rating float)
+begin
+    update `games` as g
+        left join `games_categories` as gc
+        on g.`id` = gc.`game_id`
+    set g.`budget`=g.`budget` + 100000,
+        g.`release_date` = date_add(g.`release_date`, interval 1 year) )
+    where (g.`rating` > min_game_rating) and (gc.`category_id` is null) and (g.`release_date` is not null);
+end$$
+
+CALL udp_update_budget(8)$$
+
+
+create function udf_game_info_by_name(game_name varchar(20))
+    returns varchar(255)
+    deterministic
+begin
+    declare output varchar(255);
+    set output := (select concat('The ',
+                                 game_name,
+                                 ' is developed by a ',
+                                 (select t.`name`
+                                  from `games` as g
+                                           join `teams` as t
+                                                on g.`team_id` = t.`id`
+                                  where g.`name` = game_name),
+                                 ' in an office with address ',
+                                 (select a.`name`
+                                  from `games` as g
+                                           join `teams` as t
+                                                on g.`team_id` = t.`id`
+                                           join `offices` as o
+                                                on t.`office_id` = o.`id`
+                                           join `addresses` as a
+                                                on a.`id` = o.`address_id`
+                                  where g.`name` = game_name);
+
+    return output;
+end$$
+
+SELECT udf_game_info_by_name('Job') AS info$$
