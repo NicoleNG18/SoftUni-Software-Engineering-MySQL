@@ -427,3 +427,16 @@ VALUES (1, 3),
        (48, 42),
        (49, 24),
        (50, 11);
+
+update `products`
+set `quantity_in_stock`=`quantity_in_stock` - 5
+where `quantity_in_stock` between 60 and 70;
+
+delete c
+from `customers` as c
+where c.`id` not in (select `customer_id` from `orders`);
+
+insert into `reviews` (`content`, `picture_url`, `published_at`, `rating`)
+select substring(p.`description`, 1, 15), reverse(p.`name`), '2010-10-10', (p.`price` / 8)
+from `products` as p
+where p.`id` >= 5;
