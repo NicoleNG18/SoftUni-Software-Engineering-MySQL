@@ -73,3 +73,18 @@ begin
                and concat(a.`first_name`, " ", a.`last_name`) like name);
     return history_movies;
 end$$
+
+
+SELECT udf_actor_history_movies_count('Stephan Lundberg') AS 'history_movies';
+
+create procedure udp_award_movie(movie_title varchar(50))
+begin
+    update `actors` as a
+        join `movies_actors` as ma
+        on a.`id` = ma.`actor_id`
+        join `movies` as m
+        on ma.`movie_id` = m.`id`
+    set a.`awards`=a.`awards` + 1
+    where m.`title` = movie_title;
+end$$
+
