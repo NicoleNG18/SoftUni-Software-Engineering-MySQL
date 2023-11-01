@@ -39,3 +39,19 @@ FROM `countries` AS c
 GROUP BY c.`id`
 having `movies_count` >= 7
 ORDER BY c.`name` DESC;
+
+select m.`title`,
+       (case
+            when ma.`rating` <= 4 then "poor"
+            when ma.`rating` > 4 and ma.`rating` <= 7 then "good"
+            when ma.`rating` > 7 then "excellent"
+           end) as `rating`,
+       (case
+            when ma.`has_subtitles` = 0 then "-"
+            when ma.`has_subtitles` = 1 then "english"
+           end) as `subtitles`,
+       ma.`budget`
+from `movies_additional_info` ma
+         join `movies` as m
+              on m.`movie_info_id` = ma.`id`
+order by `budget` desc;
