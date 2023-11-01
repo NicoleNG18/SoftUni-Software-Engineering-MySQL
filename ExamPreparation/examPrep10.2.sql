@@ -55,3 +55,21 @@ from `movies_additional_info` ma
          join `movies` as m
               on m.`movie_info_id` = ma.`id`
 order by `budget` desc;
+
+delimiter $$
+create function udf_actor_history_movies_count(name VARCHAR(50))
+    returns int
+    deterministic
+begin
+    declare history_movies int;
+    set history_movies :=
+            (select count(a.`id`)
+             from `actors` as a
+                      join `movies_actors` as ma
+                           on a.`id` = ma.`actor_id`
+                      join `genres_movies` as gm
+                           on ma.`movie_id` = gm.`movie_id`
+             where gm.`genre_id` = 12
+               and concat(a.`first_name`, " ", a.`last_name`) like name);
+    return history_movies;
+end$$
