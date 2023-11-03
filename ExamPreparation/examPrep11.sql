@@ -69,3 +69,15 @@ CREATE TABLE `courses`
         foreign key (`client_id`)
             references `clients` (`id`)
 );
+
+insert into `clients` (`full_name`, `phone_number`)
+select concat(d.`first_name`, " ", d.`last_name`) as `full_name`,
+       concat("(088) 9999", (d.`id` * 2))         as `phone_number`
+from `drivers` as d
+where d.`id` between 10 and 20;
+
+update `cars`
+set `condition`='C'
+where (`mileage` >= 800000 or `mileage` is null)
+  and `year` <= 2010
+  and `make` not like 'Mercedes-Benz';
