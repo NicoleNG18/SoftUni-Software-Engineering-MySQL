@@ -38,3 +38,34 @@ CREATE TABLE `cars`
     CONSTRAINT fk_cars_cat FOREIGN KEY (`category_id`)
         REFERENCES `categories` (`id`)
 );
+
+CREATE TABLE `cars_drivers`
+(
+    `car_id`    INT NOT NULL,
+    `driver_id` INT NOT NULL,
+    primary KEY (`car_id`, `driver_id`),
+    CONSTRAINT fk_cd_c FOREIGN KEY (`car_id`)
+        REFERENCES `cars` (`id`),
+    CONSTRAINT fk_cd_d FOREIGN KEY (`driver_id`)
+        REFERENCES `drivers` (`id`)
+);
+
+
+CREATE TABLE `courses`
+(
+    `id`              INT AUTO_INCREMENT PRIMARY KEY,
+    `from_address_id` INT      NOT NULL,
+    `start`           DATETIME NOT NULL,
+    `bill`            DECIMAL(10, 2) DEFAULT 10,
+    `car_id`          INT      NOT NULL,
+    `client_id`       INT      NOT NULL,
+    constraint fk_c_car
+        foreign key (`car_id`)
+            references `cars` (`id`),
+    constraint fk_c_address
+        foreign key (`from_address_id`)
+            references `addresses` (`id`),
+    constraint fk_c_client
+        foreign key (`client_id`)
+            references `clients` (`id`)
+);
