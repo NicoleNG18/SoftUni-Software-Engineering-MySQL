@@ -81,3 +81,17 @@ set `condition`='C'
 where (`mileage` >= 800000 or `mileage` is null)
   and `year` <= 2010
   and `make` not like 'Mercedes-Benz';
+
+delete cl
+from `clients` as cl
+         left join `courses` as co
+                   on co.`client_id` = cl.`id`
+where char_length(cl.`full_name`) > 3
+  and co.`client_id` is null;
+
+DELETE c
+FROM clients AS c
+         LEFT JOIN courses AS co
+                   ON c.id = co.client_id
+WHERE co.client_id IS NULL
+  AND length(c.full_name) > 3;
