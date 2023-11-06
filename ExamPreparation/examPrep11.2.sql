@@ -517,3 +517,34 @@ values (94, 4),
        (67, 47),
        (14, 40),
        (6, 18);
+
+SELECT `make`,
+       `model`,
+       `condition`
+FROM `cars`
+ORDER BY `id`;
+
+SELECT d.`first_name`,
+       d.`last_name`,
+       c.`make`,
+       c.`model`,
+       c.`mileage`
+FROM `drivers` AS d
+         JOIN
+     `cars_drivers` AS cd ON d.`id` = cd.`driver_id`
+         JOIN
+     `cars` AS c ON c.`id` = cd.`car_id`
+WHERE c.`mileage` IS NOT NULL
+ORDER BY c.`mileage` DESC, d.`first_name`;
+
+SELECT c.`id`,
+       c.`make`,
+       c.`mileage`,
+       COUNT(co.`id`)           AS `count_of_courses`,
+       ROUND(AVG(co.`bill`), 2) AS `avg_bill`
+FROM `cars` AS c
+         LEFT JOIN
+     `courses` AS co ON c.`id` = co.`car_id`
+GROUP BY c.`id`
+HAVING `count_of_courses` != 2
+ORDER BY `count_of_courses` DESC, c.`id`;
