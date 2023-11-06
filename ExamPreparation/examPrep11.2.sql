@@ -548,3 +548,48 @@ FROM `cars` AS c
 GROUP BY c.`id`
 HAVING `count_of_courses` != 2
 ORDER BY `count_of_courses` DESC, c.`id`;
+
+SELECT c.`full_name`,
+       COUNT(cr.`id`) AS `count_of_cars`,
+       SUM(co.`bill`) AS `total_sum`
+FROM `clients` AS c
+         JOIN
+     `courses` AS co ON c.`id` = co.`client_id`
+         JOIN
+     `cars` AS cr ON co.`car_id` = cr.`id`
+GROUP BY c.`full_name`
+HAVING `count_of_cars` > 1
+   AND c.`full_name` LIKE '_a%'
+ORDER BY c.`full_name`;
+
+SELECT a.`name`,
+       (CASE
+            WHEN
+                        HOUR(co.`start`) >= 6
+                    AND HOUR(co.`start`) <= 20
+                THEN
+                'Day'
+            WHEN
+                    (HOUR(co.`start`) >= 21
+                        AND HOUR(co.`start`) <= 23)
+                    OR (HOUR(co.`start`) >= 0
+                    AND HOUR(co.`start`) <= 5)
+                THEN
+                'Night'
+           END) AS `day_time`,
+       co.`bill`,
+       cl.`full_name`,
+       c.`make`,
+       c.`model`,
+       cat.`name`
+FROM `addresses` AS a
+         JOIN
+     `courses` AS co ON co.`from_address_id` = a.`id`
+         JOIN
+     `clients` AS cl ON cl.`id` = co.`client_id`
+         JOIN
+     `cars` AS c ON co.`car_id` = c.`id`
+         JOIN
+     `categories` AS cat ON c.`category_id` = cat.`id`
+ORDER BY co.`id`;
+
