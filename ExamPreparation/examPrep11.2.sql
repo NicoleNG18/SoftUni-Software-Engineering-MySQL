@@ -593,3 +593,19 @@ FROM `addresses` AS a
      `categories` AS cat ON c.`category_id` = cat.`id`
 ORDER BY co.`id`;
 
+delimiter $$
+create function udf_courses_by_client(phone_num VARCHAR(20))
+    returns int
+    deterministic
+begin
+    declare num int;
+    set num := (select count(co.`id`)
+                from `clients` as c
+                         join `courses` as co
+                              on co.`client_id` = c.`id`
+                where c.`phone_number` = phone_num);
+    return num;
+end$$
+
+SELECT udf_courses_by_client('(803) 6386812') as `count`$$
+
