@@ -609,3 +609,46 @@ end$$
 
 SELECT udf_courses_by_client('(803) 6386812') as `count`$$
 
+create procedure udp_courses_by_address(address_name varchar(100))
+begin
+    (select a.`name`,
+            cl.`full_name`,
+            (
+                case
+                    when co.`bill` <= 20 then "Low"
+                    when co.`bill` >= 21 and co.`bill` <= 30 then "Medium"
+                    when co.`bill` > 30 then "High"
+                    end
+                ) as `level_of_bill`,
+            c.`make`,
+            c.`condition`,
+            cat.`name`
+     from `addresses` as a
+              join `courses` as co
+                   on co.`from_address_id` = a.`id`
+              join `clients` as cl
+                   on cl.`id` = co.`client_id`
+              join `cars` as c
+                   on co.`car_id` = c.`id`
+              join `categories` as cat
+                   on c.`category_id` = cat.`id`
+     where a.`name` = address_name)
+        order by c.`make`,cl.`full_name`;
+end$$
+
+CALL udp_courses_by_address('700 Monterey Avenue')$$
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
